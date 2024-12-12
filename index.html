@@ -1,180 +1,31 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hola</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background-color: #1e1e1e;
-      color: #fff;
-      overflow: hidden;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
-
-    /* Contenedor principal */
-    .container {
-      width: 1200px; /* Tamaño fijo como en computadoras */
-      height: 800px; /* Tamaño estándar para que luzca bien */
-      background-color: #000; /* Fondo opcional para contraste */
-      position: relative;
-      overflow: hidden;
-    }
-
-    /* Fondo con GIF */
-    .hero {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: url('fondo.mp4') no-repeat center center / cover;
-    }
-    .hero::after {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 70%, rgba(0, 0, 0, 0.8) 100%);
-      z-index: 1;
-    }
-
-    /* Contenido central */
-    .hero-content {
-      position: relative;
-      z-index: 2;
-      text-align: center;
-      top: 50%;
-      transform: translateY(-50%);
-    }
-    .hero-content h1 {
-      font-size: 3em;
-      margin: 0;
-    }
-    .hero-content p {
-      font-size: 1.5em;
-      margin-top: 10px;
-      color: #ddd;
-    }
-
-    /* Encabezado */
-    header {
-      position: absolute;
-      top: 0;
-      width: 100%;
-      background-color: rgba(43, 43, 43, 0.9);
-      padding: 15px 30px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      z-index: 3;
-    }
-    header h1 {
-      font-size: 1.5em;
-      color: #fff;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    header h1::before {
-      content: "";
-      background: url('https://via.placeholder.com/40') no-repeat center center / contain;
-      width: 40px;
-      height: 40px;
-    }
-    header nav a {
-      color: #fff;
-      text-decoration: none;
-      font-size: 1.1em;
-      margin-left: 20px;
-    }
-    header nav a:hover {
-      text-decoration: underline;
-    }
-
-    /* Segunda sección de la página */
-    .page-content {
-      display: none;
-      flex-direction: column;
-      justify-content: space-between;
-      background-color: #333;
-      color: #fff;
-      font-family: Arial, sans-serif;
-      padding: 20px;
-    }
-
-    .footer {
-      background-color: #444;
-      text-align: center;
-      padding: 5px;
-      position: relative;
-      bottom: 0;
-      width: 100%;
-    }
-
-    .social-links {
-      display: flex;
-      justify-content: center;
-      gap: 30px;
-      margin-bottom: 1px;
-    }
-
-    .social-links img {
-      width: 60px;
-      height: auto;
-    }
-    
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fast Totem & Death Coordinates</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="container">
-    <header>
-      <h1>Developer7452 Web Page</h1>
-    </header>
-    <div class="hero">
-      <div class="hero-content">
-        <h1>Developer7452</h1>
-        <p>Tu dinero va a ser de nosotros</p>
-      </div>
-    </div>
-  </div>
+    <!-- Fondo de vídeo -->
+    <video autoplay loop muted id="background-video">
+        <source src="background.mp4" type="video/mp4">
+        Tu navegador no soporta reproducción de vídeo.
+    </video>
 
-  <div class="page-content" id="pageContent">
-    <header>
-      <div class="profile-info">
-        <span>Profile Info</span>
-      </div>
-      <h1 class="header-title">Developer7452 Página💵</h1>
-    </header>
-    <div class="footer">
-      <div class="social-links">
-        <a href="https://discord.gg/qXmRGqNV5T" target="_blank">
-          <img src="discord.png" alt="Discord">
-        </a>
-      </div>
-      <p>© Copyright Developer7452</p>
+    <!-- Contenido principal -->
+    <div class="content">
+        <h1 class="title">Selecciona tu opción</h1>
+        <div class="button-container">
+            <button onclick="navigateTo('fast_totem.html')">Fast Totem</button>
+            <button onclick="navigateTo('death_coordinates.html')">Death Coordinates</button>
+        </div>
     </div>
-  </div>
 
-  <script>
-    // Muestra la primera sección, luego transiciona a la segunda sección
-    setTimeout(function() {
-      // Desplazar el título hacia arriba después de 8 segundos
-      document.querySelector('.header-title').style.transition = 'transform 1s ease-in-out';
-      document.querySelector('.header-title').style.transform = 'translateY(-50px)';
-    }, 4000); // Espera 8 segundos para hacer el cambio
-        // Redirigir a otro archivo HTML después de 8 segundos
-        setTimeout(function() {
-            window.location.href = 'home.html';  // Cambia 'nuevo_archivo.html' al archivo al que quieras redirigir
-        }, 8000); // 8000 milisegundos (8 segundos)
-  </script>
+    <script>
+        function navigateTo(page) {
+            window.location.href = page;
+        }
+    </script>
 </body>
 </html>
