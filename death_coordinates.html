@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modificar Mensaje de Muerte</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #2e2e2e;
+            color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        input, textarea, button {
+            width: 100%;
+            max-width: 600px;
+            margin: 10px 0;
+            padding: 10px;
+            font-size: 16px;
+            background-color: #1e1e1e;
+            color: #f5f5f5;
+            border: 1px solid #444;
+            border-radius: 5px;
+        }
+        textarea {
+            height: 200px;
+        }
+        button {
+            cursor: pointer;
+            background-color: #444;
+        }
+        button:hover {
+            background-color: #555;
+        }
+        .description-box {
+            width: 100%;
+            max-width: 600px;
+            padding: 15px;
+            margin: 20px 0;
+            background-color: #1e1e1e;
+            border: 1px solid #444;
+            border-radius: 5px;
+        }
+        .description-box p {
+            margin: 5px 0;
+        }
+        .output-box {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #1e1e1e;
+            border: 1px solid #444;
+            border-radius: 5px;
+            max-width: 600px;
+            overflow-wrap: break-word;
+        }
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Modificar Mensaje de Muerte</h1>
+
+    <div class="description-box">
+        <h3>Descripción de Variables</h3>
+        <p><b>${x}</b>: Coordenada X del lugar donde murió el jugador.</p>
+        <p><b>${y}</b>: Coordenada Y del lugar donde murió el jugador.</p>
+        <p><b>${z}</b>: Coordenada Z del lugar donde murió el jugador.</p>
+        <p><b>${muerto.name}</b>: Nombre del jugador que murió.</p>
+        <p><b>${dimension}</b>: Dimensión donde murió el jugador.</p>
+    </div>
+
+    <label for="custom-message">Escribe tu mensaje de muerte personalizado:</label>
+    <input type="text" id="custom-message" placeholder="Ejemplo: ${muerto.name} murió en ${dimension} a ${x}, ${y}, ${z}" />
+
+    <label for="code-editor">Código JavaScript:</label>
+    <textarea id="code-editor">
+world.afterEvents.entityDie.subscribe(ev => {
+    const muerto = ev.deadEntity;
+
+    if (muerto.typeId === "minecraft:player") {
+        const location = muerto.location;
+        const dimension = muerto.dimension.id.replace('minecraft:', '');
+        const x = Math.floor(location.x);
+        const y = Math.floor(location.y);
+        const z = Math.floor(location.z);
+        world.sendMessage(``);
+    }
+});
+    </textarea>
+    <button id="update-code">Actualizar Código</button>
+
+    <div class="output-box" id="output">
+        <p>Aquí aparecerá el código actualizado.</p>
+    </div>
+
+    <div class="output-box" id="error-message">
+        <!-- Mensaje de error si existe una variable no válida -->
+    </div>
+
+    <script>
+        const validVariables = ['${x}', '${y}', '${z}', '${muerto.name}', '${dimension}'];  // Variables válidas
+        const customMessage = document.getElementById('custom-message');
+        const codeEditor = document.getElementById('code-editor');
+        const output = document.getElementById('output');
+        const errorMessage = document.getElementById('error-message');
+        const updateCodeButton = document.getElementById('update-code');
+
+        updateCodeButton.addEventListener('click', () => {
+            const message = customMessage.value || '${muerto.name} murió en ${dimension} a ${x}, ${y}, ${z}';
+            const code = codeEditor.value;
+
+            // Verificar si las variables usadas son válidas
+            const invalidVariables = [];
+            const regex = /\${([^}]+)}/g;
+            let match;
+
+            while ((match = regex.exec(message)) !== null) {
+                const variable = match[0];
+                if (!validVariables.includes(variable)) {
+                    invalidVariables.push(variable);
+                }
+            }
+
+            if (invalidVariables.length > 0) {
+                errorMessage.innerHTML = `La(s) variable(s) ${invalidVariables.join(', ')} no existe(n). Corrige el código.`;
+                errorMessage.classList.add('error');
+                output.innerHTML = '';  // Limpiar salida si hay error
+            } else {
+                // Si no hay errores, actualiza el código
+                const updatedCode = code.replace('world.sendMessage(``);', `world.sendMessage(\`${message}\`);`);
+                errorMessage.innerHTML = '';  // Limpiar mensaje de error
+                output.innerHTML = `<pre>${updatedCode}</pre>`;
+            }
+        });
+    </script>
+</body>
+</html>
